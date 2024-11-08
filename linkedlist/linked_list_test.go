@@ -225,3 +225,29 @@ func TestDelNodeTail(t *testing.T) {
 		})
 	}
 }
+
+func TestReverse(t *testing.T) {
+	tests := []struct {
+		name  string
+		input []int
+		want  []int
+	}{
+		{"test1", nil, nil},
+		{"test2", []int{}, []int{}},
+		{"test3", []int{1}, []int{1}},
+		{"test4", []int{1, 2}, []int{2, 1}},
+		{"test5", []int{1, 2, 3}, []int{3, 2, 1}},
+		{"test6", []int{1, 2, 3, 4}, []int{4, 3, 2, 1}},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			li := createLinkedListFromArray(tt.input)
+			lw := createLinkedListFromArray(tt.want)
+			li.reverse()
+			if !li.isLinkedListEqual(lw) {
+				t.Errorf("input:%v want:%v inputlist reverse:%v wantlist:%v", tt.input, tt.want, li, lw)
+			}
+		})
+	}
+}

@@ -140,7 +140,25 @@ func (l *list) delNodeTail() {
 	cur.next = nil
 }
 
-// 3. 单链表反转
+// reverse 3. 单链表反转
+func (l *list) reverse() {
+	if l == nil || l.head == nil {
+		return
+	}
+
+	left, cur, right := l.head, l.head.next, l.head.next
+	for right != nil {
+		right = right.next
+		cur.next = left
+		if left == l.head {
+			left.next = nil
+		}
+		left = cur
+		cur = right
+	}
+	l.head = left
+}
+
 // 4. 链表中环的检测
 // 5. 有序链表合并
 // 6. 删除链表倒数第 n 个结点
