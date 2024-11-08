@@ -107,11 +107,11 @@ func TestString(t *testing.T) {
 		input []int
 		want  string
 	}{
-		{"test1", nil, ""},
-		{"test2", []int{}, ""},
-		{"test3", []int{1}, "1"},
-		{"test4", []int{1, 2}, "1 2"},
-		{"test5", []int{1, 2, 3}, "1 2 3"},
+		{"test1", nil, "nil"},
+		{"test2", []int{}, "nil"},
+		{"test3", []int{1}, "1->nil"},
+		{"test4", []int{1, 2}, "1->2->nil"},
+		{"test5", []int{1, 2, 3}, "1->2->3->nil"},
 	}
 
 	for _, tt := range tests {

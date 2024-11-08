@@ -29,13 +29,10 @@ func (l *list) String() string {
 	s := ""
 	cur := l.head
 	for cur != nil {
-		if s == "" {
-			s += fmt.Sprintf("%d", cur.val)
-		} else {
-			s += fmt.Sprintf(" %d", cur.val)
-		}
+		s += fmt.Sprintf("%d->", cur.val)
 		cur = cur.next
 	}
+	s += "nil"
 	return s
 }
 
@@ -142,21 +139,16 @@ func (l *list) delNodeTail() {
 
 // reverse 3. 单链表反转
 func (l *list) reverse() {
-	if l == nil || l.head == nil {
-		return
-	}
+	var prev *listNode
+	cur := l.head
 
-	left, cur, right := l.head, l.head.next, l.head.next
-	for right != nil {
-		right = right.next
-		cur.next = left
-		if left == l.head {
-			left.next = nil
-		}
-		left = cur
-		cur = right
+	for cur != nil {
+		next := cur.next
+		cur.next = prev
+		prev = cur
+		cur = next
 	}
-	l.head = left
+	l.head = prev
 }
 
 // 4. 链表中环的检测
