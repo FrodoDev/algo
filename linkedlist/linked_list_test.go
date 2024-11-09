@@ -320,3 +320,32 @@ func TestGetCycleEntrance(t *testing.T) {
 	node3 := l3.getCycleEntrance()
 	assert.Equal(t, 5, node3.val)
 }
+
+func TestMergeTwoSortedList(t *testing.T) {
+	tests := []struct {
+		name   string
+		input1 []int
+		input2 []int
+		want   []int
+	}{
+		{"test1", nil, nil, nil},
+		{"test2", []int{}, nil, nil},
+		{"test3", nil, []int{}, nil},
+		{"test4", []int{}, []int{}, nil},
+		{"test5", []int{1}, []int{1}, []int{1, 1}},
+		{"test6", []int{1, 3}, []int{2}, []int{1, 2, 3}},
+		{"test6", []int{2, 4, 6}, []int{1, 5, 7, 9}, []int{1, 2, 4, 5, 6, 7, 9}},
+		{"test7", []int{1, 2}, nil, []int{1, 2}},
+		{"test8", nil, []int{1, 3}, []int{1, 3}},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			li1 := createLinkedListFromArray(tt.input1)
+			li2 := createLinkedListFromArray(tt.input2)
+			l := mergeTwoSortedList(li1, li2)
+			lw := createLinkedListFromArray(tt.want)
+			assert.Equal(t, true, lw.isLinkedListEqual(l))
+		})
+	}
+}

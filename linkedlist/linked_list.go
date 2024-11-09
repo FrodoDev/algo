@@ -201,6 +201,44 @@ func (l *list) getCycleEntrance() *listNode {
 }
 
 // 5. 有序链表合并
+func mergeTwoSortedList(l1, l2 *list) *list {
+	if l1 == nil || l1.head == nil {
+		return l2
+	}
+	if l2 == nil || l2.head == nil {
+		return l1
+	}
+
+	cur1, cur2 := l1.head, l2.head
+	l := new(list)
+	var cur *listNode
+	var min int
+	for cur1 != nil || cur2 != nil {
+		if cur1 == nil {
+			min = cur2.val
+			cur2 = cur2.next
+		} else if cur2 == nil {
+			min = cur1.val
+			cur1 = cur1.next
+		} else if cur1.val <= cur2.val {
+			min = cur1.val
+			cur1 = cur1.next
+		} else {
+			min = cur2.val
+			cur2 = cur2.next
+		}
+
+		if cur == nil {
+			cur = &listNode{val: min}
+			l.head = cur
+		} else {
+			cur.next = &listNode{val: min}
+			cur = cur.next
+		}
+	}
+	return l
+}
+
 // 6. 删除链表倒数第 n 个结点
 // 7. 求链表的中间结点
 // 8. 判断一个字符串是否是回文字符串（链表）Palindrome string /ˈpæl.ɪn.droʊm/
