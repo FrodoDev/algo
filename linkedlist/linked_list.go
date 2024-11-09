@@ -288,3 +288,39 @@ func (l *list) getMiddleNode() *listNode {
 }
 
 // 8. 判断一个字符串是否是回文字符串（链表）Palindrome string /ˈpæl.ɪn.droʊm/
+// 快慢指针,找到中间结点,中间结点到最后结点翻转,跟头结点到中间结点前一个节点部分比较
+// 注意: 偶数长度的中间结点只能是第二个
+// 用数字内容替代字符, 空字符串和只有一个字符的字符串被认为是回文字符串
+func (l *list) isPalindrome() bool {
+	if l == nil || l.head == nil || l.head.next == nil {
+		return true
+	}
+
+	slow, fast := l.head, l.head
+	for fast != nil && fast.next != nil {
+		slow = slow.next
+		fast = fast.next.next
+	}
+
+	// right := &list{head: slow}
+	// right.reverse()
+	// cur1, cur2 := l.head, right.head
+
+	var right *listNode
+	for slow != nil {
+		next := slow.next
+		slow.next = right
+		right = slow
+		slow = next
+	}
+	cur1, cur2 := l.head, right
+
+	for cur2 != nil {
+		if cur2.val != cur1.val {
+			return false
+		}
+		cur2 = cur2.next
+		cur1 = cur1.next
+	}
+	return true
+}

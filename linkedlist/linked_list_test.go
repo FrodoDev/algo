@@ -409,3 +409,31 @@ func TestGetMiddleNode(t *testing.T) {
 		t.Errorf("nil list's middle node is not nil")
 	}
 }
+
+func TestIsPalindrome(t *testing.T) {
+	tests := []struct {
+		name  string
+		input []int
+		want  bool
+	}{
+		{"test1", nil, true},
+		{"test2", []int{}, true},
+		{"test3", []int{1}, true},
+		{"test4", []int{1, 2}, false},
+		{"test5", []int{2, 2}, true},
+		{"test6", []int{2, 2, 2}, true},
+		{"test7", []int{1, 2, 1}, true},
+		{"test8", []int{1, 2, 3}, false},
+		{"test9", []int{1, 2, 3, 2, 1}, true},
+		{"test10", []int{1, 2, 3, 2, 2}, false},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			li := createLinkedListFromArray(tt.input)
+			is := li.isPalindrome()
+			t.Logf("%s: input:%v want:%t isPalindrome:%t", tt.name, tt.input, tt.want, is)
+			assert.Equal(t, tt.want, is)
+		})
+	}
+}
