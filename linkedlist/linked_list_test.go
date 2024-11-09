@@ -349,3 +349,30 @@ func TestMergeTwoSortedList(t *testing.T) {
 		})
 	}
 }
+
+func TestRmListNthFromEnd(t *testing.T) {
+	tests := []struct {
+		name  string
+		input []int
+		n     int
+		want  []int
+	}{
+		{"test1", nil, 1, nil},
+		{"test2", []int{}, 1, nil},
+		{"test3", []int{1}, 1, []int{}},
+		{"test4", []int{1}, 2, []int{1}},
+		{"test5", []int{1, 5, 7, 8, 9}, 5, []int{5, 7, 8, 9}},
+		{"test6", []int{1, 5, 7, 8, 9}, 3, []int{1, 5, 8, 9}},
+		{"test7", []int{1, 5, 7, 8, 9}, 1, []int{1, 5, 7, 8}},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			l := createLinkedListFromArray(tt.input)
+			l.rmListNthFromEnd(tt.n)
+			lw := createLinkedListFromArray(tt.want)
+			t.Logf("l:%v lw:%v", l, lw)
+			assert.Equal(t, true, lw.isLinkedListEqual(l))
+		})
+	}
+}

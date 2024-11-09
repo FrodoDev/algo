@@ -3,12 +3,12 @@
 // 2. 在链表表尾插入结点：空链表，只有一个节点的链表，有两个节点的链表
 // 3. 在链表中删除表头节点：空链表，只有一个节点的链表，有两个节点的链表
 // 4. 在链表中删除表尾节点：空链表，只有一个节点的链表，有两个节点的链表
-// 3. 单链表反转
-// 4. 链表中环的检测
-// 5. 有序链表合并
-// 6. 删除链表倒数第 n 个结点
-// 7. 求链表的中间结点
-// 8. 判断一个字符串是否是回文字符串（链表）Palindrome string /ˈpæl.ɪn.droʊm/
+// 5. 单链表反转
+// 6. 链表中环的检测
+// 7. 有序链表合并
+// 8. 删除链表倒数第 n 个结点
+// 9. 求链表的中间结点
+// 10. 判断一个字符串是否是回文字符串（链表）Palindrome string /ˈpæl.ɪn.droʊm/
 
 package linkedlist
 
@@ -200,7 +200,7 @@ func (l *list) getCycleEntrance() *listNode {
 	return cur
 }
 
-// 5. 有序链表合并
+// mergeTwoSortedList 5. 有序链表合并
 func mergeTwoSortedList(l1, l2 *list) *list {
 	if l1 == nil || l1.head == nil {
 		return l2
@@ -239,6 +239,34 @@ func mergeTwoSortedList(l1, l2 *list) *list {
 	return l
 }
 
-// 6. 删除链表倒数第 n 个结点
+// rmListNthFromEnd 6. 删除链表倒数第 n 个结点
+// 注意点: 1. 用一个新指针指向放在头结点前面, 这是为了方便删除头结点 2. 如果删除的正好是头结点, 头结点需要指向下一个位置
+func (l *list) rmListNthFromEnd(n int) {
+	if l == nil || l.head == nil {
+		return
+	}
+
+	fast := new(listNode)
+	fast.next = l.head
+	slow := fast
+	for i := 0; i < n; i++ {
+		fast = fast.next
+		if fast == nil {
+			return
+		}
+	}
+
+	for fast.next != nil {
+		fast = fast.next
+		slow = slow.next
+	}
+
+	rmNode := slow.next
+	slow.next = slow.next.next
+	if l.head == rmNode { // caution! 如果删除的正好头节点, 要把头结点移走
+		l.head = slow.next
+	}
+}
+
 // 7. 求链表的中间结点
 // 8. 判断一个字符串是否是回文字符串（链表）Palindrome string /ˈpæl.ɪn.droʊm/
