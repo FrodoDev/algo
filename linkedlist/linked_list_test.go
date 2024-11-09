@@ -376,3 +376,36 @@ func TestRmListNthFromEnd(t *testing.T) {
 		})
 	}
 }
+
+func TestGetMiddleNode(t *testing.T) {
+	tests := []struct {
+		name  string
+		input []int
+		want  []int // 中间结点往后的所有结点
+	}{
+		{"test1", nil, nil},
+		{"test2", []int{}, []int{}},
+		{"test3", []int{1}, []int{1}},
+		{"test4", []int{1, 2}, []int{1, 2}},
+		{"test5", []int{1, 2, 3}, []int{2, 3}},
+		{"test6", []int{1, 2, 3, 4}, []int{2, 3, 4}},
+		{"test7", []int{1, 2, 3, 4, 5, 6, 7}, []int{4, 5, 6, 7}},
+		{"test8", []int{1, 2, 3, 4, 5, 6, 7, 8}, []int{4, 5, 6, 7, 8}},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			li := createLinkedListFromArray(tt.input)
+			m := li.getMiddleNode()
+			m1 := &list{head: m}
+			lw := createLinkedListFromArray(tt.want)
+			assert.Equal(t, true, lw.isLinkedListEqual(m1))
+		})
+	}
+
+	var l *list
+	m := l.getMiddleNode()
+	if m != nil {
+		t.Errorf("nil list's middle node is not nil")
+	}
+}

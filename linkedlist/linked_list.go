@@ -152,6 +152,7 @@ func (l *list) reverse() {
 }
 
 // hasCycle 4. 链表中环的检测
+// 快慢指针,快指针每次走两步,慢指针每次走一步
 func (l *list) hasCycle() bool {
 	if l == nil {
 		return false
@@ -239,8 +240,9 @@ func mergeTwoSortedList(l1, l2 *list) *list {
 	return l
 }
 
-// rmListNthFromEnd 6. 删除链表倒数第 n 个结点
-// 注意点: 1. 用一个新指针指向放在头结点前面, 这是为了方便删除头结点 2. 如果删除的正好是头结点, 头结点需要指向下一个位置
+// rmListNthFromEnd 6. 删除链表倒数第 n 个结点, 超过范围的不处理
+// 快慢指针,使两个指针相隔n,那么快指针到尾结点的时候,慢指针正好指向要删除节点的前一个结点
+// 注意: 1. 使用辅助指针, 用一个新指针指向放在头结点前面, 这是为了方便删除头结点 2. 如果删除的正好是头结点, 头结点需要指向下一个位置
 func (l *list) rmListNthFromEnd(n int) {
 	if l == nil || l.head == nil {
 		return
@@ -268,5 +270,21 @@ func (l *list) rmListNthFromEnd(n int) {
 	}
 }
 
-// 7. 求链表的中间结点
+// 7. 求链表的中间结点 (长度为偶数时,返回第一个中间结点)
+// 第一种办法: 在维护链表的时候, 把长度维护上, 这样就比较方便了, 长度为 len, len为奇数时, 中间结点为len/2; len为偶数时, 中间节点为(len-1)/2
+// 第二种办法: 快慢指针, 快指针每次走两步, 慢指针每次走一步, 快指针走到尾节点的时候, 慢指针正好指向中间节点
+func (l *list) getMiddleNode() *listNode {
+	if l == nil {
+		return nil
+	}
+
+	slow, fast := l.head, l.head
+	for fast != nil && fast.next != nil && fast.next.next != nil {
+		slow = slow.next
+		fast = fast.next.next
+	}
+
+	return slow
+}
+
 // 8. 判断一个字符串是否是回文字符串（链表）Palindrome string /ˈpæl.ɪn.droʊm/
