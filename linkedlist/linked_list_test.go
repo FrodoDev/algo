@@ -251,3 +251,72 @@ func TestReverse(t *testing.T) {
 		})
 	}
 }
+
+func TestHasCycle(t *testing.T) {
+	tests := []struct {
+		name  string
+		input []int
+		want  bool
+	}{
+		{"test1", nil, false},
+		{"test2", []int{}, false},
+		{"test3", []int{1}, false},
+		{"test4", []int{1, 2, 3, 4, 5, 6, 7}, false},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			li := createLinkedListFromArray(tt.input)
+			h := li.hasCycle()
+			assert.Equal(t, tt.want, h)
+		})
+	}
+
+	var l *list
+	h := l.hasCycle()
+	assert.Equal(t, false, h)
+
+	l = createLinkedListFromArray(tests[3].input)
+	/*
+		1 2 3 4 5 6 7 →
+				↑		↓
+				 <------
+	*/
+	l.head.next.next.next.next.next.next = l.head.next.next.next.next
+	h = l.hasCycle()
+	assert.Equal(t, true, h)
+}
+
+func TestGetCycleEntrance(t *testing.T) {
+	var l *list
+	node := l.getCycleEntrance()
+	if node != nil {
+		t.Errorf("nil list get cycle")
+	}
+
+	l1 := createLinkedListFromArray([]int{1, 2, 3})
+	node1 := l1.getCycleEntrance()
+	if node1 != nil {
+		t.Errorf("not cycle list get cycle")
+	}
+
+	/*
+		1 2 3 →
+		↑	   ↓
+		 <-----
+	*/
+	l2 := createLinkedListFromArray([]int{1, 2, 3})
+	l2.head.next.next.next = l2.head
+	node2 := l2.getCycleEntrance()
+	assert.Equal(t, 1, node2.val)
+
+	/*
+		1 2 3 4 5 6 7 →
+				↑		↓
+				 <------
+	*/
+	l3 := createLinkedListFromArray([]int{1, 2, 3, 4, 5, 6, 7})
+	l3.head.next.next.next.next.next.next = l3.head.next.next.next.next
+	node3 := l3.getCycleEntrance()
+	assert.Equal(t, 5, node3.val)
+}

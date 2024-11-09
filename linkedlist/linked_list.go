@@ -151,7 +151,55 @@ func (l *list) reverse() {
 	l.head = prev
 }
 
-// 4. 链表中环的检测
+// hasCycle 4. 链表中环的检测
+func (l *list) hasCycle() bool {
+	if l == nil {
+		return false
+	}
+
+	slow, fast := l.head, l.head
+	for fast != nil && fast.next != nil {
+		slow = slow.next
+		fast = fast.next.next
+
+		if fast == slow {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (l *list) getCycleEntrance() *listNode {
+	if l == nil {
+		return nil
+	}
+
+	slow, fast := l.head, l.head
+	var node *listNode
+	for fast != nil && fast.next != nil {
+		slow = slow.next
+		fast = fast.next.next
+
+		if fast == slow {
+			node = slow
+			break
+		}
+	}
+
+	if node == nil {
+		return nil
+	}
+
+	cur := l.head
+	for ; cur != nil; cur, slow = cur.next, slow.next {
+		if cur == slow {
+			break
+		}
+	}
+	return cur
+}
+
 // 5. 有序链表合并
 // 6. 删除链表倒数第 n 个结点
 // 7. 求链表的中间结点
