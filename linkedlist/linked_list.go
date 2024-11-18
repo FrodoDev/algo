@@ -118,7 +118,7 @@ func (l *list) delNodeHead() {
 	l.head = l.head.next
 }
 
-// 4. 在链表中删除表尾节点：空链表，只有一个节点的链表，有两个节点的链表
+// delNodeTail 4. 在链表中删除表尾节点：空链表，只有一个节点的链表，有两个节点的链表
 func (l *list) delNodeTail() {
 	if l.head == nil {
 		return
@@ -137,7 +137,7 @@ func (l *list) delNodeTail() {
 	cur.next = nil
 }
 
-// reverse 3. 单链表反转
+// reverse 5. 单链表反转
 func (l *list) reverse() {
 	var prev *listNode
 	cur := l.head
@@ -151,7 +151,7 @@ func (l *list) reverse() {
 	l.head = prev
 }
 
-// hasCycle 4. 链表中环的检测
+// hasCycle 6. 链表中环的检测
 // 快慢指针,快指针每次走两步,慢指针每次走一步
 func (l *list) hasCycle() bool {
 	if l == nil {
@@ -171,6 +171,7 @@ func (l *list) hasCycle() bool {
 	return false
 }
 
+// getCycleEntrance 获取链表中环的入口结点
 func (l *list) getCycleEntrance() *listNode {
 	if l == nil {
 		return nil
@@ -201,7 +202,7 @@ func (l *list) getCycleEntrance() *listNode {
 	return cur
 }
 
-// mergeTwoSortedList 5. 有序链表合并
+// mergeTwoSortedList 7. 有序链表合并
 func mergeTwoSortedList(l1, l2 *list) *list {
 	if l1 == nil || l1.head == nil {
 		return l2
@@ -240,7 +241,7 @@ func mergeTwoSortedList(l1, l2 *list) *list {
 	return l
 }
 
-// rmListNthFromEnd 6. 删除链表倒数第 n 个结点, 超过范围的不处理
+// rmListNthFromEnd 8. 删除链表倒数第 n 个结点, 超过范围的不处理
 // 快慢指针,使两个指针相隔n,那么快指针到尾结点的时候,慢指针正好指向要删除节点的前一个结点
 // 注意: 1. 使用辅助指针, 用一个新指针指向放在头结点前面, 这是为了方便删除头结点 2. 如果删除的正好是头结点, 头结点需要指向下一个位置
 func (l *list) rmListNthFromEnd(n int) {
@@ -270,7 +271,7 @@ func (l *list) rmListNthFromEnd(n int) {
 	}
 }
 
-// 7. 求链表的中间结点 (长度为偶数时,返回第一个中间结点)
+// getMiddleNode 9. 求链表的中间结点 (长度为偶数时,返回第一个中间结点)
 // 第一种办法: 在维护链表的时候, 把长度维护上, 这样就比较方便了, 长度为 len, len为奇数时, 中间结点为len/2; len为偶数时, 中间节点为(len-1)/2
 // 第二种办法: 快慢指针, 快指针每次走两步, 慢指针每次走一步, 快指针走到尾节点的时候, 慢指针正好指向中间节点
 func (l *list) getMiddleNode() *listNode {
@@ -287,7 +288,7 @@ func (l *list) getMiddleNode() *listNode {
 	return slow
 }
 
-// 8. 判断一个字符串是否是回文字符串（链表）Palindrome string /ˈpæl.ɪn.droʊm/
+// isPalindrome 10. 判断一个字符串是否是回文字符串（链表）Palindrome string /ˈpæl.ɪn.droʊm/
 // 快慢指针,找到中间结点,中间结点到最后结点翻转,跟头结点到中间结点前一个节点部分比较
 // 注意: 偶数长度的中间结点只能是第二个
 // 用数字内容替代字符, 空字符串和只有一个字符的字符串被认为是回文字符串
