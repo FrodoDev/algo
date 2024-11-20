@@ -363,7 +363,14 @@ type webOp struct {
 }
 
 // BrowserFB 模拟浏览器的前进后退功能
-// notice:
+/*
+思路：
+	1. 用A、B两个栈
+	2. 后退时, pageX = A.Pop()，B.Push(pageX)  (A只有一个元素时不能后退，看第5条)
+	3. 前进时, pageX = B.Pop()，A.Push(pageX) （B为空时不能前进）
+	4. 打开新页面时，B.Clear()，A.Push()
+	5. *观察Chrome和Safari的表现，浏览器新打开或打开新标签页，空白页也算一个页面，应执行A.Push()*
+*/
 func BrowserFB(ops []webOp) (*SequentialStack[string], *SequentialStack[string]) {
 	stack1 := NewSequentialStack[string](100)
 	stack2 := NewSequentialStack[string](100)
