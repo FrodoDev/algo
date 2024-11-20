@@ -14,42 +14,42 @@ import (
 // go tool cover -html=coverage.out 打开网页显示详细的覆盖情况
 
 func TestIsLinkedListEqual(t *testing.T) {
-	l1 := new(list)
+	l1 := new(List)
 	e1 := l1.isLinkedListEqual(nil)
 	if e1 {
 		t.Errorf("case1: empty list equal nil list")
 	}
 
-	l1 = new(list)
+	l1 = new(List)
 	l2 := l1
 	e2 := l1.isLinkedListEqual(l2)
 	if !e2 {
 		t.Errorf("case2: two same linkedlist not equal?")
 	}
 
-	l1 = new(list)
-	l1.head = &listNode{val: 1}
+	l1 = new(List)
+	l1.Head = &ListNode{Val: 1}
 	l2 = l1
 	e3 := l1.isLinkedListEqual(l2)
 	if !e3 {
 		t.Errorf("case3: two same linkedlist not equal?")
 	}
 
-	l1 = new(list)
-	l1.head = &listNode{val: 1}
-	l2 = new(list)
-	l2.head = &listNode{val: 1}
-	l2.head.next = &listNode{val: 2}
+	l1 = new(List)
+	l1.Head = &ListNode{Val: 1}
+	l2 = new(List)
+	l2.Head = &ListNode{Val: 1}
+	l2.Head.Next = &ListNode{Val: 2}
 	e4 := l1.isLinkedListEqual(l2)
 	if e4 {
 		t.Errorf("case4: two not same linkedlist equal?")
 	}
 
-	l1 = new(list)
-	l1.head = &listNode{val: 1}
-	l1.head.next = &listNode{val: 2}
-	l2 = new(list)
-	l2.head = &listNode{val: 1}
+	l1 = new(List)
+	l1.Head = &ListNode{Val: 1}
+	l1.Head.Next = &ListNode{Val: 2}
+	l2 = new(List)
+	l2.Head = &ListNode{Val: 1}
 
 	e5 := l1.isLinkedListEqual(l2)
 	if e5 {
@@ -63,7 +63,7 @@ func TestIsLinkedListEqual(t *testing.T) {
 		t.Errorf("case6: two not same linkedlist equal?")
 	}
 
-	var l *list
+	var l *List
 	e7 := l.isLinkedListEqual(nil)
 	assert.Equal(t, true, e7)
 
@@ -74,28 +74,28 @@ func TestIsLinkedListEqual(t *testing.T) {
 
 func TestCreateLinkedListFromArray(t *testing.T) {
 	l := createLinkedListFromArray(nil)
-	if l.head != nil {
-		t.Errorf("nil arr create not nil list.head")
+	if l.Head != nil {
+		t.Errorf("nil arr create not nil list.Head")
 	}
 	assert.Equal(t, nil, nil)
 
 	l1 := createLinkedListFromArray([]int{})
-	if l1.head != nil {
-		t.Errorf("empty arr create not nil list.head")
+	if l1.Head != nil {
+		t.Errorf("empty arr create not nil list.Head")
 	}
 	// assert.Equal(t, nil, l1)
 
 	l2 := createLinkedListFromArray([]int{1})
-	l2c := new(list)
-	l2c.head = &listNode{val: 1}
+	l2c := new(List)
+	l2c.Head = &ListNode{Val: 1}
 	if !l2.isLinkedListEqual(l2c) {
 		t.Errorf("case3: one element array create linkedlist:%v %v", l2, l2c)
 	}
 
 	l3 := createLinkedListFromArray([]int{1, 2})
-	l3c := new(list)
-	l3c.head = &listNode{val: 1}
-	l3c.head.next = &listNode{val: 2}
+	l3c := new(List)
+	l3c.Head = &ListNode{Val: 1}
+	l3c.Head.Next = &ListNode{Val: 2}
 	if !l3.isLinkedListEqual(l3c) {
 		t.Errorf("case4: two element array create linkedlist:%v %v", l3, l3c)
 	}
@@ -272,7 +272,7 @@ func TestHasCycle(t *testing.T) {
 		})
 	}
 
-	var l *list
+	var l *List
 	h := l.hasCycle()
 	assert.Equal(t, false, h)
 
@@ -282,13 +282,13 @@ func TestHasCycle(t *testing.T) {
 				↑		↓
 				 <------
 	*/
-	l.head.next.next.next.next.next.next = l.head.next.next.next.next
+	l.Head.Next.Next.Next.Next.Next.Next = l.Head.Next.Next.Next.Next
 	h = l.hasCycle()
 	assert.Equal(t, true, h)
 }
 
 func TestGetCycleEntrance(t *testing.T) {
-	var l *list
+	var l *List
 	node := l.getCycleEntrance()
 	if node != nil {
 		t.Errorf("nil list get cycle")
@@ -306,9 +306,9 @@ func TestGetCycleEntrance(t *testing.T) {
 		 <-----
 	*/
 	l2 := createLinkedListFromArray([]int{1, 2, 3})
-	l2.head.next.next.next = l2.head
+	l2.Head.Next.Next.Next = l2.Head
 	node2 := l2.getCycleEntrance()
-	assert.Equal(t, 1, node2.val)
+	assert.Equal(t, 1, node2.Val)
 
 	/*
 		1 2 3 4 5 6 7 →
@@ -316,9 +316,9 @@ func TestGetCycleEntrance(t *testing.T) {
 				 <------
 	*/
 	l3 := createLinkedListFromArray([]int{1, 2, 3, 4, 5, 6, 7})
-	l3.head.next.next.next.next.next.next = l3.head.next.next.next.next
+	l3.Head.Next.Next.Next.Next.Next.Next = l3.Head.Next.Next.Next.Next
 	node3 := l3.getCycleEntrance()
-	assert.Equal(t, 5, node3.val)
+	assert.Equal(t, 5, node3.Val)
 }
 
 func TestMergeTwoSortedList(t *testing.T) {
@@ -397,13 +397,13 @@ func TestGetMiddleNode(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			li := createLinkedListFromArray(tt.input)
 			m := li.getMiddleNode()
-			m1 := &list{head: m}
+			m1 := &List{Head: m}
 			lw := createLinkedListFromArray(tt.want)
 			assert.Equal(t, true, lw.isLinkedListEqual(m1))
 		})
 	}
 
-	var l *list
+	var l *List
 	m := l.getMiddleNode()
 	if m != nil {
 		t.Errorf("nil list's middle node is not nil")

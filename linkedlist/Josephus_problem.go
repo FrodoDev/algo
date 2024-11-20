@@ -22,30 +22,30 @@ func JosephusProblem(n, k int) int {
 	cur := circle.tail
 	for remindN > 1 {
 		for i := 0; i < preN; i++ {
-			cur = cur.next
+			cur = cur.Next
 		}
 
-		cur.next = cur.next.next
+		cur.Next = cur.Next.Next
 		remindN -= 1
 	}
 
-	circle.head = cur.next
+	circle.head = cur.Next
 	circle.tail = cur
-	return cur.val
+	return cur.Val
 }
 
 type circleList struct {
-	head, tail *listNode
+	head, tail *ListNode
 }
 
 func (l *circleList) String() string {
 	s := ""
 	cur := l.head
 	for cur != l.tail {
-		s += fmt.Sprintf("%d->", cur.val)
-		cur = cur.next
+		s += fmt.Sprintf("%d->", cur.Val)
+		cur = cur.Next
 	}
-	s += fmt.Sprintf("%d->%d", cur.val, cur.next.val)
+	s += fmt.Sprintf("%d->%d", cur.Val, cur.Next.Val)
 	return s
 }
 
@@ -55,18 +55,18 @@ func newCircleList(n int) *circleList {
 	}
 
 	l := new(circleList)
-	var cur *listNode
+	var cur *ListNode
 	for i := 0; i < n; i++ {
 		if l.head == nil {
-			l.head = &listNode{val: i + 1} // 这一步很重要, 要把head初始化
+			l.head = &ListNode{Val: i + 1} // 这一步很重要, 要把head初始化
 			cur = l.head
 		} else {
-			cur.next = &listNode{val: i + 1}
-			cur = cur.next
+			cur.Next = &ListNode{Val: i + 1}
+			cur = cur.Next
 		}
 	}
-	cur.next = l.head
+	cur.Next = l.head
 	l.tail = cur
-	// fmt.Println("new get", l.head, l.tail.val)
+	// fmt.Println("new get", l.head, l.tail.Val)
 	return l
 }
