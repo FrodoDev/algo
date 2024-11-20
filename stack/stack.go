@@ -63,10 +63,17 @@ func (s *SequentialStack[T]) Pop() (T, bool) {
 }
 
 // Peak 获取栈顶元素
-// todo 获取栈顶运算符时,可以先peak,而不是pop,这样避免优先级高的运算符出栈再入栈
+// 算术表达式求值时,获取栈顶运算符时,可以先peak,而不是pop,这样避免优先级高的运算符出栈再入栈
 func (s *SequentialStack[T]) Peak() (T, bool) {
 	var zeroVal T
-	return zeroVal, false
+	if s.count <= 0 {
+		return zeroVal, false
+	}
+
+	s.count--
+	v := s.stack[s.count]
+	s.count++
+	return v, true
 }
 
 func (s *SequentialStack[T]) Equal(a []T) bool {
@@ -96,6 +103,10 @@ func (s *SequentialStack[T]) Equal(a []T) bool {
 
 func (s *SequentialStack[T]) Count() int {
 	return s.count
+}
+
+func (s *SequentialStack[T]) IsEmpty() bool {
+	return s.count <= 0
 }
 
 func (s *SequentialStack[T]) String() string {
@@ -309,6 +320,40 @@ func ExpEvaluationSeq(exp string) (int, error) {
 	return v, nil
 }
 
-// 3. 括号匹配 parenthesis matching
-// func
+// BracketMatch 3. 括号匹配  / parenthesis matching
+// ()[]{} {[({})]}  [[[]]]
+func BracketMatch(exp string) bool {
+	re := regexp.MustCompile(`[\{\[\(\)\]\}]`)
+	tokens := re.FindAllString(exp, -1)
+	// fmt.Println(tokens)
+	stack := NewSequentialStack[string](100)
+
+	for _, bracket := range tokens {
+		switch bracket {
+		case "{", "[", "(":
+			stack.Push(bracket)
+		case ")":
+			v, ok := stack.Peak()
+			if !ok || v != "(" {
+				return false
+			}
+			stack.Pop()
+		case "]":
+			v, ok := stack.Peak()
+			if !ok || v != "[" {
+				return false
+			}
+			stack.Pop()
+		case "}":
+			v, ok := stack.Peak()
+			if !ok || v != "{" {
+				return false
+			}
+			stack.Pop()
+		}
+	}
+
+	return stack.IsEmpty()
+}
+
 // 4. 实现浏览器的前进, 后退功能

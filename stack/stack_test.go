@@ -235,3 +235,35 @@ func TestExpEvaluationSeq(t *testing.T) {
 		})
 	}
 }
+
+func TestBracketMatch(t *testing.T) {
+	tests := []struct {
+		name string
+		exp  string
+		want bool
+	}{
+		// {"test1", "", true},
+		// {"test2", "abc1234sdk", true},
+		// {"test3", "[]", true},
+		{"test4", "{}", true},
+		{"test5", "()", true},
+		{"test6", "()[]{}", true},
+		{"test7", "([{()}])", true},
+		{"test8", "([{()}])[[{{([])}}]]", true},
+		{"test9", "([{()}])[[{{([])}}]][", false},
+		{"test10", "(", false},
+		{"test11", "a)c", false},
+		{"test12", "ddf(1345", false},
+		{"test13", "a[c", false},
+		{"test14", "ddf]1345", false},
+		{"test15", "a{c", false},
+		{"test16", "ddf}1345", false},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := BracketMatch(tt.exp)
+			assert.Equal(t, tt.want, r)
+		})
+	}
+}
