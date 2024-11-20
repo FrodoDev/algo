@@ -357,3 +357,45 @@ func BracketMatch(exp string) bool {
 }
 
 // 4. 实现浏览器的前进, 后退功能
+type webOp struct {
+	op  string
+	web string
+}
+
+// BrowserFB 模拟浏览器的前进后退功能
+// notice:
+func BrowserFB(ops []webOp) (*SequentialStack[string], *SequentialStack[string]) {
+	stack1 := NewSequentialStack[string](100)
+	stack2 := NewSequentialStack[string](100)
+	stack1.Push("首页")
+
+	for _, op := range ops {
+		switch op.op {
+		case "n": // new page
+			for !stack2.IsEmpty() {
+				stack2.Pop()
+			}
+			stack1.Push(op.web)
+			fmt.Println("page: new ", op.web)
+		case "b": // backward
+			if stack1.Count() <= 1 {
+				fmt.Println("已不能再后退")
+				continue
+			}
+
+			w, _ := stack1.Pop()
+			stack2.Push(w)
+			w1, _ := stack1.Peak()
+			fmt.Println("page: ", w1)
+		case "f": // forward
+			w, ok := stack2.Pop()
+			if !ok {
+				fmt.Println("已不能再前进")
+				continue
+			}
+			stack1.Push(w)
+			fmt.Println("page: ", w)
+		}
+	}
+	return stack1, stack2
+}

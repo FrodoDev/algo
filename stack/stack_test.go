@@ -267,3 +267,27 @@ func TestBracketMatch(t *testing.T) {
 		})
 	}
 }
+
+func TestBrowserFB(t *testing.T) {
+	tests := []struct {
+		name string
+		ops  []webOp
+		end1 []string
+		end2 []string
+	}{
+		{"test1", []webOp{{}}, []string{"首页"}, []string{}},
+		{"test2", []webOp{{"n", "web1"}}, []string{"首页", "web1"}, []string{}},
+		{"test3", []webOp{{"n", "web1"}, {op: "b"}}, []string{"首页"}, []string{"web1"}},
+		{"test4", []webOp{{"n", "web1"}, {op: "f"}}, []string{"首页", "web1"}, []string{}},
+		{"test5", []webOp{{"n", "web1"}, {op: "b"}, {op: "f"}}, []string{"首页", "web1"}, []string{}},
+		{"test6", []webOp{{"n", "web1"}, {"n", "web2"}, {"n", "web3"}, {op: "f"}, {op: "b"}, {op: "b"}, {op: "b"}}, []string{"首页"}, []string{"web3", "web2", "web1"}},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r1, r2 := BrowserFB(tt.ops)
+			assert.Equal(t, true, r1.Equal(tt.end1))
+			assert.Equal(t, true, r2.Equal(tt.end2))
+		})
+	}
+}
