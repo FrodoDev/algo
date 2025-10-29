@@ -1,4 +1,4 @@
-module github/aCodeNPC/algo
+module github/FrodoDev/algo
 
 go 1.22.3
 
